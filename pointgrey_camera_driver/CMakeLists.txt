@@ -27,10 +27,11 @@ file(GLOB_RECURSE POINTGREY_HEADER ${POINTGREY_INCLUDE_DIR}*/flycapture/FlyCaptu
 if(NOT POINTGREY_LIB OR NOT POINTGREY_HEADER)
   # flycapture not present, must download.
   message(STATUS "libflycapture not found in system library path")
-  include(cmake/DownloadFlyCap.cmake)
-  download_flycap(POINTGREY_LIB POINTGREY_INCLUDE_DIR)
-  message(STATUS "libflycapture library: ${POINTGREY_LIB}")
-  message(STATUS "libflycapture include: ${POINTGREY_INCLUDE_DIR}")
+  message(WARNING "Will not build pointgrey_camera_driver")
+  # include(cmake/DownloadFlyCap.cmake)
+  # download_flycap(POINTGREY_LIB POINTGREY_INCLUDE_DIR)
+  # message(STATUS "libflycapture library: ${POINTGREY_LIB}")
+  # message(STATUS "libflycapture include: ${POINTGREY_INCLUDE_DIR}")
 else()
   string(FIND "${POINTGREY_LIB}" "${CATKIN_DEVEL_PREFIX}" SUBSTR_INDEX)
   if(${SUBSTR_INDEX} EQUAL 0)
@@ -49,7 +50,7 @@ else()
     configure_file(${REAL_FLYCAPTURE} ${POINTGREY_LIB} COPYONLY)
     message(STATUS "libflycapture copied from: ${REAL_FLYCAPTURE} into ${POINTGREY_LIB}")
   endif()
-endif()
+# endif()
 
 include_directories(include ${POINTGREY_INCLUDE_DIR} ${catkin_INCLUDE_DIRS})
 
@@ -111,4 +112,6 @@ if (CATKIN_ENABLE_TESTING)
 
   find_package(roslint REQUIRED)
   roslint_cpp()
+endif()
+
 endif()
